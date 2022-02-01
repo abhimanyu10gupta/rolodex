@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 import ContactContext from './ContactContext';
 import ContactReducer from './ContactReducer';
 
@@ -13,50 +13,55 @@ import {
   CLEAR_FILTER,
 } from '../types';
 
-const ContactState = props => {
-    const initialState = {
-        contact = [
-            {
-                id:1,
-                name:'Jill Johnson',
-                email:'Jill@gmail.com',
-                phone:'400404040',
-                type:'personal'
-            },
-            {
-                id:2,
-                name:'James Johnson',
-                email:'James@gmail.com',
-                phone:'403203294',
-                type:'professional'
-            }
-        ]
-    }
+const ContactState = (props) => {
+  const initialState = {
+    contacts: [
+      {
+        id: 1,
+        name: 'Jill Johnson',
+        email: 'Jill@gmail.com',
+        phone: '400404040',
+        type: 'personal',
+      },
+      {
+        id: 2,
+        name: 'James Johnson',
+        email: 'James@gmail.com',
+        phone: '403203294',
+        type: 'professional',
+      },
+    ],
+  };
 
-     const [state, dispatch] = useReducer(ContactReducer, initialState);
+  const [state, dispatch] = useReducer(ContactReducer, initialState);
 
-    // Add Contact
+  // Add Contact
+  const addContact = (contact) => {
+    contact.id = v4();
+    dispatch({ type: ADD_CONTACT, payload: contact });
+  };
+  // Delete Contact
 
-    // Delete Contact
+  //set current contact
 
-    //set current contact
+  //clear current contact
 
-    //clear current contact
+  //update contact
 
-    //update contact
+  //filter contacts
 
-    //filter contacts
+  //clear filter
 
-    //clear filter
-
-    return (
-        <ContactContext.Provider
-            value={{
-                contacts:state.contacts
-            }}>
-            {props.children}
-        </ContactContext.Provider>
-    )
-}
+  return (
+    <ContactContext.Provider
+      value={{
+        contacts: state.contacts,
+        addContact,
+      }}
+    >
+      {props.children}
+    </ContactContext.Provider>
+  );
+};
 
 export default ContactState;
